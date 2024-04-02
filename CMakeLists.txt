@@ -13,6 +13,7 @@ option(USE_MAADEPS "use third-party libraries built by MaaDeps" ON)
 
 option(WITH_ADB_CONTROLLER "build with adb controller" ON)
 option(WITH_WIN32_CONTROLLER "build with win32 controller" ON)
+option(WITH_MAC_CONTROLLER "build with mac controller" ON)
 option(WITH_DBG_CONTROLLER "build with debugging controller" ON)
 option(WITH_THRIFT_CONTROLLER "build with thrift controller" OFF)
 
@@ -58,6 +59,11 @@ if(WITH_WIN32_CONTROLLER AND NOT WIN32)
     set(WITH_WIN32_CONTROLLER OFF)
 endif()
 
+if(WITH_MAC_CONTROLLER AND NOT APPLE)
+    message(STATUS "Not on MacOS, disable WITH_MAC_CONTROLLER")
+    set(WITH_MAC_CONTROLLER OFF)
+endif()
+
 if(WITH_THRIFT_CONTROLLER)
     include(${PROJECT_SOURCE_DIR}/cmake/thrift-gen.cmake)
 endif()
@@ -66,7 +72,7 @@ if(WITH_GRPC)
     include(${PROJECT_SOURCE_DIR}/cmake/grpc-gen.cmake)
 endif()
 
-if (BUILD_HTTP_CLI)
+if(BUILD_HTTP_CLI)
     find_program(NODE_EXE NAMES node nodejs)
     if(NOT NODE_EXE)
         message(STATUS "NodeJS not found, disable BUILD_HTTP_CLI")
@@ -119,3 +125,5 @@ install(
     FILE MaaFramework.cmake
     NAMESPACE MaaFramework::
     DESTINATION "share/cmake/MaaFramework")
+
+add_subdirectory(test/dummy)

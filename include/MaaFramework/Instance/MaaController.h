@@ -44,6 +44,21 @@ extern "C"
         MaaCallbackTransparentArg callback_arg);
 
     /**
+     * @brief Create a mac controller instance.
+     *
+     * @param windowId The mac window id to control. Cast CGWindowID for now.
+     * @param type The type of the mac controller. See #MaaMacControllerTypeEnum.
+     * @param callback The callback function. See ::MaaAPICallback.
+     * @param callback_arg The callback arg that will be passed to the callback function.
+     * @return MaaControllerHandle The handle of the created controller instance.
+     */
+    MAA_FRAMEWORK_API MaaControllerHandle MaaMacControllerCreate(
+        MaaMacWindowId windowId,
+        MaaMacControllerType type,
+        MaaControllerCallback callback,
+        MaaCallbackTransparentArg callback_arg);
+
+    /**
      * @brief Create a ADB controller instance.
      *
      * @param adb_path The path of ADB executable.

@@ -262,6 +262,38 @@ enum MaaWin32ControllerTypeEnum
 
 typedef void* MaaWin32Hwnd;
 
+typedef int32_t MaaMacControllerType;
+#define MaaMacControllerType_Touch_Mask 0xFF
+#define MaaMacControllerType_Key_Mask 0xFF00
+#define MaaMacControllerType_Screencap_Mask 0xFF0000
+
+/**
+ * @brief Mac controller type
+ *
+ * See AdbControllerTypeEnum to know how the value is composed.
+ *
+ */
+enum MaaMacControllerTypeEnum
+{
+    MaaMacController_Invalid = 0,
+
+    MaaMacControllerType_Touch_Event = 1,
+
+    MaaMacControllerType_Key_Event = 1 << 8,
+
+    MaaMacControllerType_Screencap_CG = 1 << 16,
+};
+
+typedef uint32_t MaaMacWindowId;
+
+#if defined(_WIN32)
+typedef MaaWin32Hwnd MaaHwnd;
+#elif defined(__APPLE__)
+typedef MaaMacWindowId MaaHwnd;
+#else
+typedef int MaaHwnd;
+#endif
+
 typedef void* MaaTransparentArg;
 typedef MaaTransparentArg MaaCallbackTransparentArg;
 

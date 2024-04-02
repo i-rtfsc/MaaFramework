@@ -46,6 +46,22 @@ private:
     inline static const std::string destroy_func_name_ = "MaaWin32ControlUnitDestroy";
 };
 
+class MacControlUnitLibraryHolder : public LibraryHolder<MacControlUnitLibraryHolder>
+{
+public:
+    static std::shared_ptr<MAA_CTRL_UNIT_NS::ControlUnitAPI> create_control_unit(
+        MaaMacWindowId windowId,
+        MaaMacControllerType type,
+        MaaControllerCallback callback,
+        MaaCallbackTransparentArg callback_arg);
+
+private:
+    inline static const std::filesystem::path libname_ = MAA_NS::path("MaaMacControlUnit");
+    inline static const std::string version_func_name_ = "MaaMacControlUnitGetVersion";
+    inline static const std::string create_func_name_ = "MaaMacControlUnitCreate";
+    inline static const std::string destroy_func_name_ = "MaaMacControlUnitDestroy";
+};
+
 class DbgControlUnitLibraryHolder : public LibraryHolder<DbgControlUnitLibraryHolder>
 {
 public:

@@ -55,6 +55,28 @@
     {
       "argument": [
         {
+          "name": "windowId",
+          "type": "MaaMacWindowId"
+        },
+        {
+          "name": "type",
+          "type": "MaaMacControllerType"
+        },
+        {
+          "name": "callback",
+          "type": "MaaControllerCallback"
+        },
+        {
+          "name": "callback_arg",
+          "type": "MaaCallbackTransparentArg"
+        }
+      ],
+      "name": "MaaMacControllerCreate",
+      "return": "MaaControllerHandle"
+    },
+    {
+      "argument": [
+        {
           "name": "adb_path",
           "type": "MaaStringView"
         },
@@ -1736,25 +1758,25 @@
         }
       ],
       "name": "MaaToolkitGetWindow",
-      "return": "MaaWin32Hwnd"
+      "return": "MaaHwnd"
     },
     {
       "argument": [
       ],
       "name": "MaaToolkitGetCursorWindow",
-      "return": "MaaWin32Hwnd"
+      "return": "MaaHwnd"
     },
     {
       "argument": [
       ],
       "name": "MaaToolkitGetDesktopWindow",
-      "return": "MaaWin32Hwnd"
+      "return": "MaaHwnd"
     },
     {
       "argument": [
       ],
       "name": "MaaToolkitGetForegroundWindow",
-      "return": "MaaWin32Hwnd"
+      "return": "MaaHwnd"
     },
     {
       "argument": [

@@ -42,31 +42,31 @@ extern "C"
      *
      * @param index The 0-based index of the window. The index should not exceed the number of
      * windows found otherwise out_of_range exception will be thrown.
-     * @return MaaWin32Hwnd The window handle.
+     * @return MaaHwnd The window handle.
      */
-    MAA_TOOLKIT_API MaaWin32Hwnd MaaToolkitGetWindow(MaaSize index);
+    MAA_TOOLKIT_API MaaHwnd MaaToolkitGetWindow(MaaSize index);
 
     /**
      * @brief Get the window handle of the window under the cursor. This uses the WindowFromPoint()
      * system API.
      *
-     * @return MaaWin32Hwnd The window handle.
+     * @return MaaHwnd The window handle.
      */
-    MAA_TOOLKIT_API MaaWin32Hwnd MaaToolkitGetCursorWindow();
+    MAA_TOOLKIT_API MaaHwnd MaaToolkitGetCursorWindow();
 
     /**
      * @brief Get the desktop window handle. This uses the GetDesktopWindow() system API.
      *
-     * @return MaaWin32Hwnd The window handle.
+     * @return MaaHwnd The window handle.
      */
-    MAA_TOOLKIT_API MaaWin32Hwnd MaaToolkitGetDesktopWindow();
+    MAA_TOOLKIT_API MaaHwnd MaaToolkitGetDesktopWindow();
 
     /**
      * @brief Get the foreground window handle. This uses the GetForegroundWindow() system API.
      *
-     * @return MaaWin32Hwnd The window handle.
+     * @return MaaHwnd The window handle.
      */
-    MAA_TOOLKIT_API MaaWin32Hwnd MaaToolkitGetForegroundWindow();
+    MAA_TOOLKIT_API MaaHwnd MaaToolkitGetForegroundWindow();
 
 #ifdef __cplusplus
 }

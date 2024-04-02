@@ -2,11 +2,13 @@
 
 #include "./type.hpp"
 
+#include "MaaFramework/MaaDef.h"
 #include "utils/phony.hpp"
 
 #include "../info.hpp"
 
 LHGArgHandle(maa::func_type_MaaWin32ControllerCreate::ret, alloc);
+LHGArgHandle(maa::func_type_MaaMacControllerCreate::ret, alloc);
 LHGArgHandle(maa::func_type_MaaAdbControllerCreateV2::ret, alloc);
 LHGArgHandle(maa::func_type_MaaThriftControllerCreate::ret, alloc);
 LHGArgHandle(maa::func_type_MaaDbgControllerCreate::ret, alloc);
@@ -21,11 +23,11 @@ LHGArgHandle(maa::func_type_MaaDestroy::_0_inst, free);
 LHGArgHandle(maa::func_type_MaaCreateImageBuffer::ret, alloc);
 LHGArgHandle(maa::func_type_MaaDestroyImageBuffer::_0_handle, free);
 
-#define ReturnHwnd(func_tag)                                                             \
-    LHGArgToJsonBegin(func_tag, ret, true)                                               \
-        value = std::format("{:#018x}", reinterpret_cast<size_t>(std::get<index>(arg))); \
-        LHGArgToJsonMiddle()                                                             \
-        b.type("string");                                                                \
+#define ReturnHwnd(func_tag)                              \
+    LHGArgToJsonBegin(func_tag, ret, true)                \
+        value = pri_maa::from_hwnd(std::get<index>(arg)); \
+        LHGArgToJsonMiddle()                              \
+        b.type("string");                                 \
     LHGArgToJsonEnd()
 
 ReturnHwnd(maa::func_type_MaaToolkitGetWindow);
@@ -36,7 +38,13 @@ ReturnHwnd(maa::func_type_MaaToolkitGetForegroundWindow);
 #undef ReturnHwnd
 
 LHGArgFromJsonBegin(maa::func_type_MaaWin32ControllerCreate, _0_hWnd, true)
-    std::get<index>(arg) = reinterpret_cast<void*>(std::stoull(value.as_string(), nullptr, 0));
+    std::get<index>(arg) = pri_maa::to_win32_hwnd(value.as_string());
+    LHGArgFromJsonMiddle()
+    b.type("string");
+LHGArgFromJsonEnd()
+
+LHGArgFromJsonBegin(maa::func_type_MaaMacControllerCreate, _0_windowId, true)
+    std::get<index>(arg) = pri_maa::to_mac_hwnd(value.as_string());
     LHGArgFromJsonMiddle()
     b.type("string");
 LHGArgFromJsonEnd()
@@ -103,6 +111,7 @@ OutputString(maa::func_type_MaaSyncContextRunRecognizer, _5_out_detail);
     LHGArgFromJsonEnd()
 
 ApiCallback(maa::func_type_MaaWin32ControllerCreate, _2_callback, _3_callback_arg);
+ApiCallback(maa::func_type_MaaMacControllerCreate, _2_callback, _3_callback_arg);
 ApiCallback(maa::func_type_MaaAdbControllerCreateV2, _5_callback, _6_callback_arg);
 ApiCallback(maa::func_type_MaaThriftControllerCreate, _4_callback, _5_callback_arg);
 ApiCallback(maa::func_type_MaaDbgControllerCreate, _4_callback, _5_callback_arg);

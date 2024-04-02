@@ -17,6 +17,28 @@ struct custom_action_context
     std::shared_ptr<lhg::callback::context_info> stop;
 };
 
+// https://stackoverflow.com/questions/78259817/reinterpret-cast-always-check-even-branch-omitted-by-if-constexpr
+template <typename _ = MaaHwnd>
+inline std::string from_hwnd(_ hwnd)
+{
+    if constexpr (std::is_pointer_v<_>) {
+        return std::format("{:#018x}", reinterpret_cast<size_t>(hwnd));
+    }
+    else {
+        return std::format("{:#018x}", static_cast<size_t>(hwnd));
+    }
+}
+
+inline MaaWin32Hwnd to_win32_hwnd(const std::string& value)
+{
+    return reinterpret_cast<MaaWin32Hwnd>(std::stoull(value, nullptr, 0));
+}
+
+inline MaaMacWindowId to_mac_hwnd(const std::string& value)
+{
+    return static_cast<MaaMacWindowId>(std::stoull(value, nullptr, 0));
+}
+
 inline json::object from_rect(MaaRectHandle rec)
 {
     return {

@@ -94,6 +94,42 @@ MaaControllerHandle MaaWin32ControllerCreate(
 #endif
 }
 
+MaaControllerHandle MaaMacControllerCreate(
+    MaaMacWindowId windowId,
+    MaaMacControllerType type,
+    MaaControllerCallback callback,
+    MaaCallbackTransparentArg callback_arg)
+{
+    LogFunc << VAR_VOIDP(windowId) << VAR(type) << VAR_VOIDP(callback) << VAR_VOIDP(callback_arg);
+
+#ifndef __APPLE__
+
+    LogError << "This API" << __FUNCTION__ << "is only available on MacOS";
+    return nullptr;
+
+#else
+
+    if (!windowId) {
+        LogError << "windowId is 0";
+        return nullptr;
+    }
+
+    auto control_unit = MAA_NS::MacControlUnitLibraryHolder::create_control_unit(
+        windowId,
+        type,
+        callback,
+        callback_arg);
+
+    if (!control_unit) {
+        LogError << "Failed to create control unit";
+        return nullptr;
+    }
+
+    return new MAA_CTRL_NS::GeneralControllerAgent(std::move(control_unit), callback, callback_arg);
+
+#endif
+}
+
 MaaControllerHandle MaaCustomControllerCreate(
     MaaCustomControllerHandle handle,
     MaaTransparentArg handle_arg,
