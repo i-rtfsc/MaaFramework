@@ -26,6 +26,7 @@ option(BUILD_MAAPP_TESTING "build maapp testing" OFF)
 
 set(MAA_PUBLIC_INC ${CMAKE_SOURCE_DIR}/include)
 set(MAA_PRIVATE_INC ${CMAKE_SOURCE_DIR}/source/include)
+set(MAA_MODULE_PRIVATE_INC ${CMAKE_SOURCE_DIR}/source/module/include)
 
 if(USE_MAADEPS)
     set(MAADEPS_DIR ${PROJECT_SOURCE_DIR}/3rdparty/MaaDeps)
