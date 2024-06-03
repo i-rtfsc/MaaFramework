@@ -23,3 +23,5 @@ add_subdirectory(MaaProjectInterface)
 add_subdirectory(MaaHttp)
 
 add_subdirectory(binding)
+
+add_subdirectory(MaaQuickJS)
