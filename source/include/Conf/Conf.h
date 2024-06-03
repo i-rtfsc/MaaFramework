@@ -124,3 +124,9 @@
     namespace MAA_PROJECT_INTERFACE_NS \
     {
 #define MAA_PROJECT_INTERFACE_NS_END }
+
+#define MAA_QUICKJS_NS MAA_NS::QuickjsNS
+#define MAA_QUICKJS_NS_BEGIN \
+    namespace MAA_QUICKJS_NS \
+    {
+#define MAA_QUICKJS_NS_END }
