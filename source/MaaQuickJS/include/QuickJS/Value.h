@@ -8,6 +8,7 @@
 #include "Conf/Conf.h"
 
 #include "Define.h"
+#include "quickjs.h"
 
 MAA_QUICKJS_NS_BEGIN
 
@@ -17,14 +18,13 @@ class Value
     friend class Context;
 
 private:
-    Value(JSValue value, JSContext* context = nullptr, bool own = true);
+    Value(JSValue value);
 
 public:
-    Value(const Value&) = delete;
-    Value(Value&&);
-    ~Value();
-    Value& operator=(const Value&) = delete;
-    Value& operator=(Value&&);
+    Value(const Value&);
+    Value(Value&&) = default;
+    Value& operator=(const Value&);
+    Value& operator=(Value&&) = default;
 
     int32_t tag() const; // Tag
 
@@ -46,15 +46,21 @@ public:
     static Value exception();
     static Value uninitialized();
 
-    bool is_equal(const Value& value) const;
-    bool is_strict_equal(const Value& value) const;
-    bool is_same_value(const Value& value) const;
-    bool is_same_value_zero(const Value& value) const;
+    JSClassID get_class_id() const;
+
+    bool is_number() const;
+    bool is_big_int() const;
+    bool is_bool() const;
+    bool is_null() const;
+    bool is_undefined() const;
+    bool is_exception() const;
+    bool is_uninitialized() const;
+    bool is_string() const;
+    bool is_symbol() const;
+    bool is_object() const;
 
 private:
     std::unique_ptr<JSValue> value_ = nullptr;
-    JSContext* context_ = nullptr;
-    bool own_ = true;
 };
 
 MAA_QUICKJS_NS_END

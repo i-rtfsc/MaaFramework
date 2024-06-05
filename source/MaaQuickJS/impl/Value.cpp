@@ -1,49 +1,28 @@
 #include "QuickJS/Value.h"
+#include "QuickJS/Define.h"
 #include "QuickJS/Runtime.h"
 
 #include "quickjs.h"
+#include <memory>
 
 MAA_QUICKJS_NS_BEGIN
 
-Value::Value(JSValue value, JSContext* context, bool own)
+Value::Value(JSValue value)
     : value_(new JSValue { value })
-    , context_(context)
-    , own_(own)
 {
 }
 
-Value::Value(Value&& val)
+Value::Value(const Value& val)
 {
-    value_.swap(val.value_);
-    context_ = val.context_;
-    own_ = val.own_;
-    val.context_ = nullptr;
-    val.own_ = false;
+    value_ = std::make_unique<JSValue>(*val.value_);
 }
 
-Value::~Value()
-{
-    if (context_ && value_ && own_) {
-        JS_FreeValue(context_, *value_);
-    }
-}
-
-Value& Value::operator=(Value&& val)
+Value& Value::operator=(const Value& val)
 {
     if (&val == this) {
         return *this;
     }
-    if (context_ && value_ && own_) {
-        JS_FreeValue(context_, *value_);
-        value_.reset();
-        context_ = nullptr;
-        own_ = false;
-    }
-    value_.swap(val.value_);
-    context_ = val.context_;
-    own_ = val.own_;
-    val.context_ = nullptr;
-    val.own_ = false;
+    value_ = std::make_unique<JSValue>(*val.value_);
     return *this;
 }
 
@@ -69,7 +48,7 @@ double Value::get_float64() const
 
 Value Value::nan()
 {
-    return Value(JS_NAN);
+    return JS_NAN;
 }
 
 bool Value::is_nan() const
@@ -79,52 +58,87 @@ bool Value::is_nan() const
 
 Value Value::null()
 {
-    return Value(JS_NULL);
+    return JS_NULL;
 }
 
 Value Value::undefined()
 {
-    return Value(JS_UNDEFINED);
+    return JS_UNDEFINED;
 }
 
 Value Value::false_()
 {
-    return Value(JS_FALSE);
+    return JS_FALSE;
 }
 
 Value Value::true_()
 {
-    return Value(JS_TRUE);
+    return JS_TRUE;
 }
 
 Value Value::exception()
 {
-    return Value(JS_EXCEPTION);
+    return JS_EXCEPTION;
 }
 
 Value Value::uninitialized()
 {
-    return Value(JS_UNINITIALIZED);
+    return JS_UNINITIALIZED;
 }
 
-bool Value::is_equal(const Value& value) const
+JSClassID Value::get_class_id() const
 {
-    return JS_IsEqual(context_, *value_, *value.value_);
+    return JS_GetClassID(*value_);
 }
 
-bool Value::is_strict_equal(const Value& value) const
+bool Value::is_number() const
 {
-    return JS_IsStrictEqual(context_, *value_, *value.value_);
+    return JS_IsNumber(*value_);
 }
 
-bool Value::is_same_value(const Value& value) const
+bool Value::is_big_int() const
 {
-    return JS_IsSameValue(context_, *value_, *value.value_);
+    return JS_IsBigInt(nullptr, *value_);
 }
 
-bool Value::is_same_value_zero(const Value& value) const
+bool Value::is_bool() const
 {
-    return JS_IsSameValueZero(context_, *value_, *value.value_);
+    return JS_IsBool(*value_);
+}
+
+bool Value::is_null() const
+{
+    return JS_IsNull(*value_);
+}
+
+bool Value::is_undefined() const
+{
+    return JS_IsUndefined(*value_);
+}
+
+bool Value::is_exception() const
+{
+    return JS_IsException(*value_);
+}
+
+bool Value::is_uninitialized() const
+{
+    return JS_IsUninitialized(*value_);
+}
+
+bool Value::is_string() const
+{
+    return JS_IsString(*value_);
+}
+
+bool Value::is_symbol() const
+{
+    return JS_IsSymbol(*value_);
+}
+
+bool Value::is_object() const
+{
+    return JS_IsObject(*value_);
 }
 
 MAA_QUICKJS_NS_END

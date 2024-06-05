@@ -38,6 +38,13 @@ public:
 
     bool is_live_object(const Value& value) const;
 
+    JSClassID new_class_id() const;
+    // new_class
+    // is_registered_class
+
+    void free(const Value& value) const;
+    Value dup(const Value& value) const;
+
 private:
     JSRuntime* runtime_ = nullptr;
     bool own_ = true;

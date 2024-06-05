@@ -1,6 +1,7 @@
 #include "QuickJS/Runtime.h"
 
 #include "Conf/Conf.h"
+#include "QuickJS/Define.h"
 #include "QuickJS/Value.h"
 
 #include "quickjs.h"
@@ -98,6 +99,23 @@ void Runtime::run_gc() const
 bool Runtime::is_live_object(const Value& value) const
 {
     return JS_IsLiveObject(runtime_, *value.value_);
+}
+
+JSClassID Runtime::new_class_id() const
+{
+    JSClassID result;
+    return JS_NewClassID(runtime_, &result);
+    return result;
+}
+
+void Runtime::free(const Value& value) const
+{
+    JS_FreeValueRT(runtime_, *value.value_);
+}
+
+Value Runtime::dup(const Value& value) const
+{
+    return JS_DupValueRT(runtime_, *value.value_);
 }
 
 MAA_QUICKJS_NS_END
