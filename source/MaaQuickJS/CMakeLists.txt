@@ -12,7 +12,7 @@ endif()
 
 add_subdirectory(quickjs)
 
-file(GLOB_RECURSE maa_quickjs_src source/*.cpp)
+file(GLOB_RECURSE maa_quickjs_src impl/*.cpp)
 
 add_library(MaaQuickJS SHARED ${maa_quickjs_src})
 target_link_libraries(MaaQuickJS PRIVATE qjs)
