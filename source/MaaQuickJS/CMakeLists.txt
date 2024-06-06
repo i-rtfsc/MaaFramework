@@ -6,6 +6,7 @@ if(MSVC)
     add_compile_options(
         "/wd4389;/wd4706;/wd4389;/wd4152;/wd4996;/wd4702;/wd4132;/wd4061;/wd4101;/wd4334;/wd4701;/wd4189;/wd4576;/wd4711;/wd4710"
     )
+    add_compile_options("/volatile:ms")
 else()
     add_compile_options("-Wno-pedantic;-Wno-unused-parameter;-fPIC")
 endif()
