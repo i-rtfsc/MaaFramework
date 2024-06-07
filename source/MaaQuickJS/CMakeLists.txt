@@ -12,11 +12,9 @@ endif()
 
 add_subdirectory(quickjs)
 
-file(GLOB_RECURSE maa_quickjs_src impl/*.cpp)
+file(GLOB_RECURSE maa_quickjs_src Impl/*.cpp)
 
 add_library(MaaQuickJS SHARED ${maa_quickjs_src})
 target_link_libraries(MaaQuickJS PRIVATE qjs)
-target_include_directories(
-    MaaQuickJS
-    PRIVATE include ../include
-    INTERFACE include)
+target_include_directories(MaaQuickJS PRIVATE . ../include ../../include)
+target_compile_definitions(MaaQuickJS PRIVATE MAA_QUICKJS_EXPORTS)
