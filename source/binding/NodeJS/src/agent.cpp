@@ -1,5 +1,3 @@
-#define MAA_NODE_SERVER
-
 #include "include/cb.h"
 #include "include/info.h"
 #include "include/loader.h"
