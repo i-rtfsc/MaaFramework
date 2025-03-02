@@ -114,10 +114,14 @@ void load_agent(Napi::Env env, Napi::Object& exports, Napi::External<ExtContextI
     BIND(agent_server_shut_down);
     BIND(agent_server_join);
     BIND(agent_server_detach);
+
+    exports["AgentRole"] = "server";
 #else
     BIND(agent_client_create);
     BIND(agent_client_destroy);
     BIND(agent_client_bind_resource);
     BIND(agent_client_start_child);
+
+    exports["AgentRole"] = "client";
 #endif
 }
