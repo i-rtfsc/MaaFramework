@@ -5,7 +5,15 @@
 #include <regex>
 #include <string>
 
-#include <cpp-base64/base64.hpp>
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning(disable: 4068)
+#endif
+#include <gzip/decompress.hpp>
+#include <gzip/compress.hpp>
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif
 
 #include "Utils/Logger.h"
 #include "Utils/NoWarningCV.hpp"
@@ -162,9 +170,8 @@ cv::Mat decode_image(const std::string& data)
         return {};
     }
 
-    std::string base64 = base64::base64_decode(data);
-    std::vector<uchar> buffer(std::make_move_iterator(base64.begin()), std::make_move_iterator(base64.end()));
-    return cv::imdecode(buffer, cv::IMREAD_COLOR);
+    auto buffer = gzip::decompress(data.data(), data.size());
+    return cv::imdecode({ buffer.data(), static_cast<int>(buffer.size()) }, cv::IMREAD_COLOR);
 }
 
 std::string encode_image(const cv::Mat& image)
@@ -174,8 +181,9 @@ std::string encode_image(const cv::Mat& image)
     }
 
     std::vector<uchar> buffer;
-    cv::imencode(".png", image, buffer);
-    return base64::base64_encode(buffer.data(), buffer.size());
+    cv::imencode(".bmp", image, buffer);
+
+    return gzip::compress(reinterpret_cast<char*>(buffer.data()), buffer.size(), 0);
 }
 
 MAA_NS_END
